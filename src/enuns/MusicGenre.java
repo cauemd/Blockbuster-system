@@ -11,11 +11,10 @@ public enum MusicGenre {
 	BLUES("Blues"),
 	REGGAE("Reggae"),
 	COUNTRY("Country"),
-	LOFI("Lo-Fi"),
 	POP("Pop"),
 	DISCO("Disco"),
 	RAP("Rap"),
-	CLASSIC("Classic"),
+	CLASSICAL("Classical"),
 	JAZZ("Jazz"),
 	ELETRONIC("Eletronic"),
 	IRISH("Irish Trad");

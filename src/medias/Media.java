@@ -4,9 +4,13 @@
  */
 package medias;
 
-public class Media {
+public abstract class Media {
 	
-	private String title;
-	private int yearOfRelease;
+	protected String title;
+	protected int yearOfRelease;
+	
+	public String getTitle() {
+		return this.title;
+	}
 	
 }

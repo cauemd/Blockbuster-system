@@ -7,6 +7,8 @@ public enum VideoGenre {
 	WESTERN("Western"),
 	COMEDY("Comedy"),
 	DRAMA("Drama"),
+	FANTASY("Fantasy"),
+	ACTION("Action"),
 	ROMANCE("Romance"),
 	SCIFI("Science Fiction"),
 	DOCUMENTARY("Documentary"),

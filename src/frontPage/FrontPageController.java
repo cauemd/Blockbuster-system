@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 
 import createCustomer.CreateCustomerController;
 import createMedia.CreateMediaController;
+import searchcustomer.SearchMediaController;
 
 public class FrontPageController implements ActionListener, WindowListener{
 	
@@ -83,11 +84,18 @@ public class FrontPageController implements ActionListener, WindowListener{
 		} else if (e.getActionCommand().equals("newCust")) { 
 			new CreateCustomerController();
 			view.dispose();
-			
+		
+		//instantiates CreateMediaController class
 		} else if (e.getActionCommand().equals("addMedia")) { 
 			new CreateMediaController();
 			view.dispose();
-		}	
+			
+		//instantiates SearchMediaController Class	
+		} else {
+			new SearchMediaController();
+			view.dispose();
+			
+		}
 	}
 
 }
