@@ -24,7 +24,7 @@ import medias.Media;
 public class SearchMediaView extends JFrame{
 
 	private SearchMediaController controller;
-	public JTable table;
+	private JTable table;
 
 	public SearchMediaView(SearchMediaController controller) {
 		this.controller = controller;
@@ -68,10 +68,10 @@ public class SearchMediaView extends JFrame{
 		gBtn.add(movieRB);
 
 		//Adding table that will show titles and availability
-		
 		DefaultTableModel tableModel = new DefaultTableModel();
 		JTable table = new JTable(tableModel);
-    	JScrollPane scrollPane = new JScrollPane(table);
+		this.table = table;
+		JScrollPane scrollPane = new JScrollPane(table);
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 1;
 		c.gridx = 0;
@@ -101,6 +101,10 @@ public class SearchMediaView extends JFrame{
 		this.validate();
 		this.repaint();
 
+	}
+	
+	public JTable getTable() {
+		return this.table;
 	}
 
 

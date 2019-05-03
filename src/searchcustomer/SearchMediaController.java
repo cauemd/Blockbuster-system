@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 import frontPage.FrontPageController;
-import medias.Media;
+import medias.*;
 import medias.TvBox;
 
 //controller to the view that will list all the titles in the DB
@@ -28,23 +28,6 @@ public class SearchMediaController implements ActionListener, WindowListener {
 
 		this.model = new SearchMediaModel();
 		this.view = new SearchMediaView(this);
-	}
-
-
-	/**
-	 *Gets an Object of Media objects from the database for and specific
-	 *type of media, clears the view's table and updates it with the new data.
-	 *Param determines which subclass of media. 1 for movies, 2 for live concerts and 3 for Tv shows.
-	 *
-	 * @param type an int that will pick the table which table from the database to read.
-	 * @return A collection of one of the subclasses of Media
-	 * @see Media
-	 */
-	public Object[][] getMediaList(int x) {
-		Object[][] testing = model.getTitlesFromDB(x);
-		System.out.println(testing[0][0]);
-		System.out.println(testing[0][0]);
-		return testing ;
 	}
 
 	//Takes the user to the front page if the view is closed
@@ -90,23 +73,101 @@ public class SearchMediaController implements ActionListener, WindowListener {
 
 	}
 
+	//handles the radiobuttons, updating the view's table with data the model receives from the database 
+	//and the button that returns the user to the front page.
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("movies")) {
-			
-			//Object[][] temp = getMediaList(1);
+			settingUpJTable(1);
+			populatingTable(1);
 			
 		} else if (e.getActionCommand().equals("concerts")) {
-			//Object[][] temp = getMediaList(2);
+			settingUpJTable(2);
+			populatingTable(2);
 
 		} else if (e.getActionCommand().equals("tv")) {
-			//Object[][] temp = getMediaList(3);
+			settingUpJTable(3);
+			populatingTable(3);
 			
 		//return to front page button	
 		} else {
 			new FrontPageController();
 			view.dispose();
 		}
+	}
+
+	/**
+	 *Retrieves an ArrayList<Media> of one of the subclasses from the database using the model, 
+	 *verifies which of them are being rented and feeds the data to the view's table;
+	 *
+	 *@param an int representing the type of media selected. 1 for Movies, 2 for Concerts, 3 for TvShows
+	 * @see SearchMediaView, SearchMediaModel
+	 */
+	private void populatingTable(int mediaType) {
+		DefaultTableModel tblModel = (DefaultTableModel) view.getTable().getModel();
+		ArrayList<Media> mediaList = model.getTitlesFromDB(mediaType);
+		Object[] data = new Object[5];
+		
+		//Media class generic data
+		for (Media media : mediaList) {
+			data[0] = media.getTitle();
+			data[1] = media.getGenre();
+			data[2] = media.getYearOfRelease();
+			
+			//Movie subclass data
+			if(mediaType == 1) {
+				data[3] = ((Movie) media).getDirector();
+				data[4] = model.isRented(media.getID(), mediaType);
+				
+			//Concert subclass data	
+			} else if(mediaType == 2) {
+				data[3] = ((LiveConcert) media).getBand();
+				data[4] = model.isRented(media.getID(), mediaType);
+				
+			//TVBox subclass data	
+			} else {
+				data[3] = ((TvBox) media).getSeasonNum();
+				data[4] = model.isRented(media.getID(), mediaType);
+			}
+			
+			tblModel.addRow(data);			
+		}
+				
+	}
+
+
+	/**
+	 *Remove all rows from the view's JTable and change the TableHeaders to the appropriated 
+	 *type of media according to the type of media selected in the RadioButton
+	 *
+	 *@param an int representing the type of media selected. 1 for Movies, 2 for Concerts, 3 for TvShows
+	 * @see SearchMediaView
+	 */
+	private void settingUpJTable(int mediaType) {
+		
+		//setting up the TableHeaders
+		DefaultTableModel tblModel = (DefaultTableModel) view.getTable().getModel();
+		tblModel.setColumnCount(5);	
+		view.getTable().getColumnModel().getColumn(0).setHeaderValue("Title");
+		view.getTable().getColumnModel().getColumn(1).setHeaderValue("Genre");
+		view.getTable().getColumnModel().getColumn(2).setHeaderValue("Year of Release");
+		view.getTable().getColumnModel().getColumn(4).setHeaderValue("Available");
+		
+		if (mediaType == 1) {			//movies
+			view.getTable().getColumnModel().getColumn(3).setHeaderValue("Director");
+
+		} else if (mediaType == 2) {	//concerts
+			view.getTable().getColumnModel().getColumn(3).setHeaderValue("Band");
+			
+		} else {						//TvShow
+			view.getTable().getColumnModel().getColumn(3).setHeaderValue("Season N.");
+		}
+		
+		//Removing all rows from table
+		while(tblModel.getRowCount() > 0) {
+			tblModel.removeRow(0);
+		}
+
 	}
 
 }

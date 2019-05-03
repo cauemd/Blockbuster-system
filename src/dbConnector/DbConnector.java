@@ -78,33 +78,31 @@ public class DbConnector {
 				stmt = conn.prepareStatement(query);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					Media movie = new Movie(rs.getString("title"), rs.getInt("yearOfRelease"), 
+					Media movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("yearOfRelease"), 
 							rs.getString("genre"), rs.getString("director"));
 					mediaArray.add(movie);
 				}
 
-			//Checking Live Concerts table	
+				//Checking Live Concerts table	
 			} else if (type == 2) {
 				String query = "SELECT * FROM liveconcerts;";
 				stmt = conn.prepareStatement(query);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					Media concert = new LiveConcert(rs.getString("title"), rs.getInt("yearOfRelease"), 
+					Media concert = new LiveConcert(rs.getInt("id"), rs.getString("title"), rs.getInt("yearOfRelease"), 
 							rs.getString("genre"), rs.getString("band"));
 					mediaArray.add(concert);
 				}
 
-			//Checking TvBox table 
+				//Checking TvBox table 
 			} else {
 				String query = "SELECT * FROM tvshow;";
 				stmt = conn.prepareStatement(query);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					Media tvshow = new TvBox(rs.getString("title"), rs.getInt("yearOfRelease"), 
+					Media tvshow = new TvBox(rs.getInt("id"), rs.getString("title"), rs.getInt("yearOfRelease"), 
 							rs.getString("genre"), rs.getInt("seasonNumber"));
 					mediaArray.add(tvshow);
-					System.out.println(tvshow);
-				
 				}
 			}
 
@@ -112,8 +110,63 @@ public class DbConnector {
 			e.printStackTrace();
 		}
 
-		return null;
+		return mediaArray;
 	}
 
+	/**
+	 *Verifies if there's an entry with the ID passed as argument is in one the database's table with
+	 *the medias that are currently being rented and unavailable. The second parameter specifies the 
+	 *media type, therefore which table will be consulted.
+	 *
+	 *@param mediaID - the ID of the media that will be searched in the database.
+	 *@param  mediaType - int representing the type of media. 1 for Movies, 2 for Concerts, 3 for TvShows
+	 * @return 
+	 * @see SearchMediaModel
+	 */
+	public boolean checkAvailability(int mediaID, int mediaType) {
+		// TODO Auto-generated method stub
+		PreparedStatement stmt = null;
+
+		try {
+			//Checking movies table
+			if (mediaType == 1) {				
+				String query = "SELECT * FROM customers_movies WHERE movieID = ?;";
+				stmt = conn.prepareStatement(query);
+				stmt.setInt(1, mediaID);
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next()) {
+					return false;
+				}
+
+				//Checking Live Concerts table	
+			} else if (mediaType == 2) {
+				String query = "SELECT * FROM customers_concerts WHERE concertID = ?;";
+				stmt = conn.prepareStatement(query);
+				stmt.setInt(1, mediaID);
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next()) {
+					return false;
+				}
+
+				//Checking TvBox table 
+			} else {
+				String query = "SELECT * FROM customers_tvshow WHERE tvshowID = ?;";
+				stmt = conn.prepareStatement(query);
+				stmt.setInt(1, mediaID);
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next()) {
+					return false;
+				}
+			}
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return true;
+	}
 
 }
+
+
+

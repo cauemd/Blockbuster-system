@@ -8,19 +8,25 @@ import enuns.MusicGenre;
 
 public class LiveConcert extends Media {
 	
-	private String genre;
 	private String band;
 	
-	public LiveConcert(String title, int release, String genre, String band) {
-		this.title = title;
-		this.yearOfRelease = release;
+	//Default Constructor
+	public LiveConcert(int id, String title, int release, String genre, String band) {
+		super(id, title, release, genre);
 		this.genre = genre;
 		this.band = band;
 	}
 	
+	//Overriding toString method, useful for testing/debugging purposes
+	@Override
 	public String toString() {
 		return "Title: " + this.title + ". Released in: " + this.yearOfRelease + 
 				". Band: " + this.band + ". Genre: " + this.genre + "."; 
+	}
+
+	//band attribute getter
+	public String getBand() {
+		return this.band;
 	}
 
 }
