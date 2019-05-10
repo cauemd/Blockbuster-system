@@ -14,15 +14,12 @@ import javax.swing.JComboBox;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 //view used to create new media in the system
 public class CreateMediaView extends JFrame{
 
-	
 	private CreateMediaController controller;
 	private JTextField title;
 	private JTextField release;
@@ -201,6 +198,7 @@ public class CreateMediaView extends JFrame{
 
 	}
 
+	//clears the frame and adds the labels and TextFields to get new movie's info
 	public void addTV() {
 		this.getContentPane().removeAll();
 		this.setLayout(new GridBagLayout());

@@ -24,7 +24,8 @@ public class CreateCustomerView extends JFrame {
 	private JTextField mobile;
 	private JTextField cardNum;
 	private	JLabel errorLbl;
-	private String membershipType;
+	private int membershipType;
+	private JTextField emailTF;
 	
 	//Class constructor
 	public CreateCustomerView(CreateCustomerController controller) {
@@ -74,20 +75,28 @@ public class CreateCustomerView extends JFrame {
 		c.gridx = 1;
 		this.cardNum = cardTF;
 		this.add(cardTF, c);
+		JLabel emailLb = new JLabel("Email Address:");
+		c.gridx = 0;
+		c.gridy = 4;
+		this.add(emailLb, c);
+		JTextField emailTF = new JTextField(15);
+		c.gridx = 1;
+		this.emailTF = emailTF;
+		this.add(emailTF, c);
 
 		//creating RadioButtons and ButtonGroup for the membership types
 		JLabel memberLbl = new JLabel("Select type of membership:");
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridwidth = 2;
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 5;
 		this.add(memberLbl, c);
 		c.anchor = GridBagConstraints.WEST;
 		JRadioButton musicRB = new JRadioButton("Music Lover");
 		musicRB.setActionCommand("music");
 		musicRB.addActionListener(controller);
 		c.gridwidth = 1;
-		c.gridy = 5;
+		c.gridy = 6;
 		this.add(musicRB, c);
 		JRadioButton videoRB = new JRadioButton("Video Lover");
 		videoRB.setActionCommand("video");
@@ -98,7 +107,7 @@ public class CreateCustomerView extends JFrame {
 		tvRB.setActionCommand("tv");
 		tvRB.addActionListener(controller);
 		c.gridx = 0;
-		c.gridy = 6;
+		c.gridy = 7;
 		this.add(tvRB, c);
 		JRadioButton premiumRB = new JRadioButton("Premium");
 		premiumRB.setActionCommand("premium");
@@ -116,7 +125,7 @@ public class CreateCustomerView extends JFrame {
 		registerBtn.addActionListener(controller);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 7;
+		c.gridy = 8;
 		c.insets = new Insets(20,10,0,10);
 		this.add(registerBtn, c);
 		JButton cancelBtn = new JButton("Cancel");
@@ -129,7 +138,7 @@ public class CreateCustomerView extends JFrame {
 		c.gridwidth = 2;
 		errorLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		c.gridx = 0;
-		c.gridy = 8;
+		c.gridy = 9;
 		this.add(errorLbl, c);
 
 		this.validate();
@@ -140,7 +149,7 @@ public class CreateCustomerView extends JFrame {
 	private void settings() {
 		this.setVisible(true);
 		this.setResizable(false);
-		this.setSize(350,360);
+		this.setSize(350,380);
 		this.validate();
 		this.repaint();
 
@@ -167,11 +176,15 @@ public class CreateCustomerView extends JFrame {
 		return this.errorLbl;
 	}
 
-	public String getMembershipType() {
+	public int getMembershipType() {
 		return membershipType;
 	}
+	
+	public String getEmail() {
+		return this.emailTF.getText();
+	}
 
-	public void setMembershipType(String membershipType) {
+	public void setMembershipType(int membershipType) {
 		this.membershipType = membershipType;
 	}
 

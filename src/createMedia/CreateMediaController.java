@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.JOptionPane;
+
 import frontPage.FrontPageController;
 
 //controller for the view that creates new media in the system
@@ -18,10 +20,11 @@ public class CreateMediaController implements ActionListener, WindowListener{
 	
 	private CreateMediaView view;
 	private CreateMediaModel model;
+	private int mediaType;
 	
 	public CreateMediaController() {
+		this.model = new CreateMediaModel(this);
 		this.view = new CreateMediaView(this);
-		this.model = new CreateMediaModel();
 	}
 	
 	public String[] gettingMovieGenres() {
@@ -86,27 +89,52 @@ public class CreateMediaController implements ActionListener, WindowListener{
 			view.dispose();
 		} else if (e.getActionCommand().equals("movie")) {
 			view.addMovie();
+			mediaType = 1;
 		} else if (e.getActionCommand().equals("concert")) {
 			view.addConcert();
+			mediaType = 2;
 		} else if (e.getActionCommand().equals("tv")) {
 			view.addTV();
+			mediaType = 3;
 		
-		//this will include the 3 buttons to add a movie, concert or tv set. Since the 3 of them need the same validation,
-		//validating here and specifying the behavior for each button after that will reduce code repetition
+		/*last action command handling include the 3 buttons to add a movie, concert or tv set. 
+		 * Since the 3 of them need the same validation, validating here and specifying the 
+		 * behavior for each button after that will reduce code repetition
+		 */ 
 		} else {
-			String title = view.getMediaTitle();
-			String release = view.getYear();
-			String genre = view.getGenre();
-			String creator = view.getCreator();
+			String title = view.getMediaTitle().trim();
+			String release = view.getYear().trim();
+			String genre = view.getGenre().trim();
+			String creator = view.getCreator().trim();
 			
-			if (title.isBlank() || release.isBlank() || creator.isBlank()) {
-				view.getErrorLb().setForeground(Color.RED);
-				view.getErrorLb().setText("Please complete all fields.");
-			} else {
-				
+			//validation method
+			if (model.validating(title, release, creator, mediaType)) {
+				int yearOfRelease = Integer.parseInt(release);
+				model.createNewMedia(title, yearOfRelease, genre, creator, mediaType);
+				JOptionPane.showMessageDialog(view,
+					    "Item added to the database!");
+				view.dispose();
+				new FrontPageController();
+
 			}
-			
 		}
 	}
-
+	
+	public void changingErrorLbl(int error) {
+		switch (error){
+		case 1:
+			view.getErrorLb().setForeground(Color.RED);
+			view.getErrorLb().setText("Please complete all fields.");
+			break;
+		case 2:
+			view.getErrorLb().setForeground(Color.RED);
+			view.getErrorLb().setText("Use only number for the year of release.");
+			break;
+		case 3:
+			view.getErrorLb().setForeground(Color.RED);
+			view.getErrorLb().setText("Use only number for the Season Number.");
+			break;
+		}
+		
+	}
 }

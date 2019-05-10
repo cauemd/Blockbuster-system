@@ -15,14 +15,18 @@ import javax.swing.JOptionPane;
 
 import createCustomer.CreateCustomerController;
 import createMedia.CreateMediaController;
-import searchcustomer.SearchMediaController;
+import customer.Customer;
+import customerpage.CustomerPageController;
+import searchmedia.SearchMediaController;
 
 public class FrontPageController implements ActionListener, WindowListener{
 	
 	private FrontPageView view;
+	private FrontPageModel model;
 	
 	public FrontPageController() {
 		view = new FrontPageView(this);
+		model = new FrontPageModel();
 	}
 
 	@Override
@@ -76,9 +80,16 @@ public class FrontPageController implements ActionListener, WindowListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		//checks if customer exists in DB, changes error msg to RED if doesn't, instantiates customer page if it does
-		if (e.getActionCommand().equals("custInfo")) { 		
-			view.getErrorMsg().setForeground(Color.RED);
+		//checks if customer exists in DB. Instantiates customer page if it does, error msg if it doesn't; 
+		if (e.getActionCommand().equals("custInfo")) { 	
+			String email = view.getCustLoginTF();
+			Customer customer = model.getCustomerInfo(email);
+			if (customer == null) {
+				view.getErrorMsg().setForeground(Color.RED);
+			} else {
+				new CustomerPageController(customer);
+				view.dispose();
+			}
 		
 		//instantiates createCustomerController class
 		} else if (e.getActionCommand().equals("newCust")) { 

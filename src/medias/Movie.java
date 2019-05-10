@@ -4,8 +4,6 @@
  */
 package medias;
 
-import enuns.VideoGenre;
-
 public class Movie extends Media {
 
 	private String director;

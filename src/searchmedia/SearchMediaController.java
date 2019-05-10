@@ -2,7 +2,7 @@
 /*
  *  @Author = Caue Meireles Duarte
  */
-package searchcustomer;
+package searchmedia;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

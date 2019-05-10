@@ -4,8 +4,6 @@
  */
 package medias;
 
-import enuns.VideoGenre;
-
 public class TvBox extends Media {
 	
 	private int seasonNumber;

@@ -4,8 +4,6 @@
  */
 package medias;
 
-import enuns.MusicGenre;
-
 public class LiveConcert extends Media {
 	
 	private String band;

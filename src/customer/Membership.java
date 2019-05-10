@@ -9,18 +9,17 @@ package customer;
 public class Membership {
 	
 	private int loyaltyPts;
-	private int cardNum;
+	private Double cardNum;
 	private int membershipType;
 	
-	public Membership(int pointNum, int cardNum, int membershipType) {
+	public Membership(int pointNum, Double cardNum, int membershipType) {
 		this.loyaltyPts = pointNum;
 		this.cardNum = cardNum;
 		this.membershipType = membershipType;		
 	}
 	
-	//method to deduct the 100 points in case the customer wants to get the free rental
-	public void freeRental() {
-		this.loyaltyPts -= 100;
+	public Double getCardNum() {
+		return this.cardNum;
 	}
 	
 	public int getPointNum() {
@@ -29,5 +28,25 @@ public class Membership {
 
 	public int getmembershipType() {
 		return this.membershipType;
+	}
+
+	/**
+	 *Adds 10 points to the total of loyalty points in the card.
+	 *
+	 *@see Customer
+	 */
+	public void addTenPoints() {
+		this.loyaltyPts += 10;
+		
+	}
+
+	/**
+	 *Used when the customer opts for the free rental, subtracts 100 points from the total of 
+	 *loyalty points in the card.
+	 *
+	 *@see Customer
+	 */
+	public void subtractHundredPoints() {
+		this.loyaltyPts -= 100;
 	}
 }

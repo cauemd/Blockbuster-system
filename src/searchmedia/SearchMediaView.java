@@ -2,7 +2,7 @@
 /*
  *  @Author = Caue Meireles Duarte
  */
-package searchcustomer;
+package searchmedia;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import medias.Media;
 
+//View used to display all medias separated by type
 public class SearchMediaView extends JFrame{
 
 	private SearchMediaController controller;

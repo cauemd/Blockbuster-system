@@ -4,14 +4,14 @@
  */
 package medias;
 
-import searchcustomer.SearchMediaView;
-
+//Abstract class responsible for keeping general information regarding the different types of media
 public abstract class Media {
 	
 	protected int id;
 	protected String title;
 	protected int yearOfRelease;
 	protected String genre;
+	protected String rentedDate;
 	
 	protected Media(int id, String title, int yearOfRelease, String genre) {
 		this.id = id;
@@ -41,8 +41,25 @@ public abstract class Media {
 		return this.id;
 	}
 
+	/**
+	 *Return the genre of the Media
+	 */
 	public String getGenre() {
 		return this.genre;
+	}
+	
+	/**
+	 *Sets the date the media was rented
+	 */
+	public void setRentedDate(String date) {
+		this.rentedDate = date;
+	}
+
+	/**
+	 *Return the date the media was rented
+	 */
+	public String getDate() {
+		return rentedDate;
 	}
 	
 }

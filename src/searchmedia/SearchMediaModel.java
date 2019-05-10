@@ -2,13 +2,12 @@
 /*
  *  @Author = Caue Meireles Duarte
  */
-package searchcustomer;
+package searchmedia;
 
 import java.util.ArrayList;
 
 import dbConnector.DbConnector;
 import medias.Media;
-import medias.TvBox;
 
 public class SearchMediaModel {
 	
